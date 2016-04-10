@@ -9,7 +9,8 @@ public class Main {
         appLogic.startBrowser();
         Page page = new Page(appLogic.getDriver());
         page.userLogin("azhaleiko", "123456");
-        page.getAllLinks();
+        page.getLinksOnPage();
+        page.getMainPageLinks();
         appLogic.closeBrowser();
     }
 }

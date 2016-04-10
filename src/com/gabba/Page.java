@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -26,6 +27,8 @@ public class Page {
     By loginField = By.id("P101_USERNAME");
     By passwordField = By.id("P101_PASSWORD");
     By loginButton = By.id("P101_LOGIN");
+    List<String> unusedLinks = Arrays.asList("Abmelden", "DE", "RU", "ENG", "ES", "Startseite", "Neue Nachricht");
+
 
     private void type(By element, String text) {
         driver.findElement(element).click();
@@ -52,6 +55,10 @@ public class Page {
         }
 
     }
+    public List<String> getAllMainPageLinks(){
+        List<String> allMainPageLinks = getLinksOnPage();
+        return allMainPageLinks;
+    }
 
 
     public String getPageName() {
@@ -67,51 +74,75 @@ public class Page {
         FileUtils.copyFile(scrFile, new File("screenshots/" + "screenshot_" + pageName +"_"+ random.nextInt(100000)+".png"));
     }
 
-    public void getAllLinks() throws IOException, InterruptedException {
+    public List<String> getLinksOnPage() {
         List<WebElement> linksToClick = driver.findElements(By.cssSelector("a"));
-        List<String> linkText = new ArrayList<>();
+        List<String> pageLinksText = new ArrayList<String>();
         for (int i = 0; i < linksToClick.size(); i++) {
-            linkText.add(linksToClick.get(i).getText());
+            pageLinksText.add(linksToClick.get(i).getText());
         }
-        System.out.println("Total links on MainPage: "+linkText.size());
-        for (int i = 0; i < linkText.size(); i++)
-        {
-            if (linkText.get(i).equals("Abmelden")) {
-                System.out.println("This is link: " + linkText.get(i) + " Not click");
-            } else {
-                if (linkText.get(i).equals("DE")) {
-                    System.out.println("This is link: " + linkText.get(i) + " Not click");
-                } else {
-                    if (linkText.get(i).equals("RU")) {
-                        System.out.println("This is link: " + linkText.get(i) + " Not click");
-                    } else {
-                        if (linkText.get(i).equals("ENG")) {
-                            System.out.println("This is link: " + linkText.get(i) + " Not click");
-                        } else {
-                            if (linkText.get(i).equals("ES")) {
-                                System.out.println("This is link: " + linkText.get(i) + " Not click");
-                            } else {
-                                if (linkText.get(i).equals("Startseite")) {
-                                    System.out.println("This is link: " + linkText.get(i) + " Not click");
-                                } else {
-                                    if (linkText.get(i).equals("Neue Nachricht")) {
-                                        System.out.println("This is link: " + linkText.get(i) + " Not click");
-                                    } else {
-                                        System.out.println(linkText.get(i));
-                                        click(By.linkText(linkText.get(i)));
-                                        Thread.sleep(1000);
-                                        takeScreenShot();
-                                        click(By.linkText("Startseite"));
-                                    }
+        return pageLinksText;
+    }
 
-                                }
-                            }
-                        }
-                    }
+    public List<String> compare(List<String> first, List<String> second) {
+        List<String> result = new ArrayList<String>();
+        int compare = 0;
+        for (int i=0; i<second.size();i++){
+            for (int j=0; j<first.size(); j++){
+                if (second.get(i).equals(first.get(j))){
+                    compare = compare+1;
                 }
+            }
+            if (compare == 0){
+                result.add(second.get(i));
+            }
+            compare=0;
+        }
+        return result;
+    }
+
+
+
+    public void printLinks(List<String> linkList){
+        for (int i=0;i<linkList.size(); i++){
+            System.out.println(linkList.get(i));
+        }
+
+    }
+
+    public List<String> getMainPageLinks(){
+        List<String> mainPageLinks = compare(unusedLinks, getAllMainPageLinks());
+        return mainPageLinks;
+    }
+
+    public void getScreenShots(){
+        List<String> mainPageLinks = getMainPageLinks();
+        for (int i=0;i<mainPageLinks.size();i++ ){
+            click(By.linkText(mainPageLinks.get(i)));
+            List<String> pageLinks = getLinksOnPage();
+            List<String> uniquePageLinks = compare(getAllMainPageLinks(),pageLinks);
+            if (uniquePageLinks.size()>0){
+                goToNextPage(uniquePageLinks);
+            } else {
+                takeScreenShot();
+                returnToPreviousPage();
             }
         }
     }
+
+    private void goToNextPage(List<String> list) {
+        for (int i=0; i<list.size();i++){
+            click(By.linkText(list.get(i)));
+        }
+    }
+
+    private boolean isLastPage(List<String> list){
+        if (list.size()==0){
+            return true;
+        } else{
+            return false;
+        }
+    }
+
 }
 
 
