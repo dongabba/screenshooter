@@ -18,6 +18,7 @@ import java.util.Random;
 public class Page {
     private WebDriver driver;
     private WebDriverWait wait;
+    final List<String> finalLinks = Arrays.asList("");
 
     public Page(WebDriver driver) {
         this.driver = driver;
@@ -140,6 +141,14 @@ public class Page {
             return true;
         } else{
             return false;
+        }
+    }
+
+    public void openPageAndGetLinks(String links, List<String> finalLinks ){
+        click(By.linkText(links));
+        List<String> pageLinks = getLinksOnPage();
+        List<String> uniquePageLinks = compare(finalLinks, pageLinks);
+        finalLinks.addAll(uniquePageLinks);
         }
     }
 
