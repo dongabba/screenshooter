@@ -1,6 +1,0 @@
-http://smcp-cloud.fors.ru/pls/apex/f?p=706:1111:userId::NO:::
-http://smcp-cloud.fors.ru/pls/apex/f?p=706:1111:userId::NO:::#
-http://smcp-cloud.fors.ru/pls/apex/f?p=706:12:userId::::P12_REPORT_SELECTOR:ALL
-http://smcp-cloud.fors.ru/pls/apex/f?p=706:12:userId::NO::P12_REPORT_SELECTOR:C
-http://smcp-cloud.fors.ru/pls/apex/f?p=706:12:userId::NO::P12_REPORT_SELECTOR:E
-http://smcp-cloud.fors.ru/pls/apex/f?p=706:12:userId::NO::P12_REPORT_SELECTOR:P

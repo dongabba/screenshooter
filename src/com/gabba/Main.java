@@ -8,10 +8,11 @@ public class Main {
         AppLogic appLogic = new AppLogic();
         appLogic.startBrowser();
         Page page = new Page(appLogic.getDriver());
-        //page.cleanWorkingDirectory();
+        page.cleanWorkingDirectory();
         page.userLogin("azhaleiko", "123456");
         page.getPageCode();
-        page.getScreenShootsFromLinksFileEn();
+        page.getScreenShootsCSLinksENG();
+        //page.getScreenShootsFromLinksFileEn();
         appLogic.closeBrowser();
     }
 }
