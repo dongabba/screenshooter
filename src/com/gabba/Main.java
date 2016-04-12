@@ -8,9 +8,10 @@ public class Main {
         AppLogic appLogic = new AppLogic();
         appLogic.startBrowser();
         Page page = new Page(appLogic.getDriver());
+        //page.cleanWorkingDirectory();
         page.userLogin("azhaleiko", "123456");
-        page.getLinksOnPage();
-        page.getMainPageLinks();
+        page.getPageCode();
+        page.getScreenShootsFromLinksFileEn();
         appLogic.closeBrowser();
     }
 }
